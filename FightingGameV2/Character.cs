@@ -11,8 +11,8 @@ public class Character
     // Dex - Dexterity
 
     public string name;
-    protected int hp;
-    protected int maxHp;
+    protected float hp;
+    protected float maxHp;
     protected int vt;
     protected int atk;
     protected int def;
@@ -20,4 +20,8 @@ public class Character
     protected int acc;
     protected int dex;
 
+    public static (Player, Enemy) Attacking(Player p, Enemy e)
+    {
+        return (p, e);
+    }
 }
