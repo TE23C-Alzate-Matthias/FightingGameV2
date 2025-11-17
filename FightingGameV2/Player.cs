@@ -13,6 +13,12 @@ public class Player : Character
         ChooseName();
     }
 
+    // when i add things to do in between fights, this will get referenced
+    public void WhatToDo()
+    {
+        
+    }
+
     private void ChooseName()
     {
         string choice = "";

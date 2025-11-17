@@ -16,7 +16,7 @@ while (keepPlaying == "yes")
     Console.WriteLine("Inside the game logic");
     Console.ReadLine();
     keepPlaying = "";
-    (p1, e1) = Character.Attacking(p1, e1);
+    (p1, e1) = Character.TurnOrder(p1, e1);
 }
 
 Console.WriteLine("Outside the game logic");
