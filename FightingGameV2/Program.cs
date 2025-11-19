@@ -7,7 +7,9 @@ Console.ReadLine();
 Player p1 = new();
 
 Enemy e1 = new();
+e1.name = "Bob";
 
+string choice = "";
 string keepPlaying = "yes";
 
 while (keepPlaying == "yes")
@@ -15,8 +17,10 @@ while (keepPlaying == "yes")
     Console.Clear();
     Console.WriteLine("Inside the game logic");
     Console.ReadLine();
-    keepPlaying = "";
     (p1, e1) = Character.TurnOrder(p1, e1);
+
+    Console.Clear();
+    Console.WriteLine("Do you want to continue playing");
 }
 
 Console.WriteLine("Outside the game logic");

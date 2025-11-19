@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 public class Player : Character
-{   
+{
     // not gonna be used for now
     private int stat;
     public Player()
@@ -14,17 +14,48 @@ public class Player : Character
     }
 
     // when i add things to do in between fights, this will get referenced
-    public void WhatToDo()
-    {
-        
+    public static (Player, Enemy) WhatToDoFight(Player p, Enemy e)
+    { 
+
+        string choice = "";
+        // list of options
+        List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
+
+        // choose what you want
+        while (choice != "1" || choice != "2" || choice != "3")
+        {
+            Console.WriteLine("Who do you want to do?");
+            // writes out list
+            for (int i = 0; i < options.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {options[i]}");
+            }
+            // reads choice
+            choice = Console.ReadLine();
+            // goes out of the while
+            if (choice == "1" || choice == "2" || choice == "3")
+            {
+                
+            }
+            // says its invalid option
+            else
+            {
+                Console.WriteLine("Not a valid answer, please try again");
+                Console.ReadLine();
+            }
+        }
+        Console.Clear();
+
+        return(p, e);
+
     }
+
 
     private void ChooseName()
     {
         string choice = "";
-        string naming = "";
 
-        while (naming != "yes")
+        while (choice != "yes")
         {
             name = "";
 
@@ -64,7 +95,7 @@ public class Player : Character
 
             Console.WriteLine($"Your Characters name is {name}, is this correct? [yes/no]");
             choice = Console.ReadLine();
-            naming = choice.ToLower();
+            choice = choice.ToLower();
         }
     }
 }
