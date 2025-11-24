@@ -15,7 +15,7 @@ public class Player : Character
 
     // when i add things to do in between fights, this will get referenced
     public static (Player, Enemy) WhatToDoFight(Player p, Enemy e)
-    { 
+    {
 
         string choice = "";
         // list of options
@@ -35,7 +35,7 @@ public class Player : Character
             // goes out of the while
             if (choice == "1" || choice == "2" || choice == "3")
             {
-                
+                break;
             }
             // says its invalid option
             else
@@ -44,9 +44,21 @@ public class Player : Character
                 Console.ReadLine();
             }
         }
-        Console.Clear();
 
-        return(p, e);
+        if (choice == "1")
+        {
+            p.LightAttack(e);
+        }
+        else if (choice == "2")
+        {
+            p.HeavyAttack(e);
+        }
+        else
+        {
+            p.Rest(p);
+        }
+
+        return (p, e);
 
     }
 

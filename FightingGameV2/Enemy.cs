@@ -15,6 +15,19 @@ public class Enemy : Character
 
         e.choice = generator.Next(1, 4);
 
+        if (e.choice == 1)
+        {
+            e.LightAttack(p);
+        }
+        else if (e.choice == 2)
+        {
+            e.HeavyAttack(p);
+        }
+        else
+        {
+            e.Rest(e);
+        }
+
         return(p, e);
     }
 }

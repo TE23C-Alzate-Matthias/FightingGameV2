@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 public class Character
 {
     // ==================== CLASS ====================
@@ -14,14 +12,13 @@ public class Character
 
     public string name;
     protected int maxHp;
-    public int hp;
+    protected int hp { get; set; }
     protected int vt;
     protected int atk;
     protected int def;
     protected int spd;
     protected int acc;
     protected int dex;
-    protected int dmg;
 
     // very simple how the turn ordering will work for now, gonna be changed to have more options
     public static (Player, Enemy) TurnOrder(Player p, Enemy e)
@@ -37,12 +34,9 @@ public class Character
             Console.WriteLine($"======= ROUND {round} =======");
             Console.WriteLine($"{p.name} Hp: {p.hp} || {e.name} HP: {e.hp}");
 
-            p.dmg = generator.Next(10, 21);
-            e.hp -= p.dmg;
-            Console.WriteLine($"{p.name} did {p.dmg} damage");
-            e.dmg = generator.Next(10, 21);
-            p.hp -= e.dmg;
-            Console.WriteLine($"{e.name} did {e.dmg} damage");
+            (p, e) = Player.WhatToDoFight(p, e);
+            (p, e) = Enemy.AttackLogic(p, e);
+
             Console.WriteLine("Click anything to continue");
             Console.ReadLine();
             p.hp = Math.Max(0, p.hp);
@@ -52,29 +46,56 @@ public class Character
         WinCheck(p, e);
         p.hp = p.maxHp;
         e.hp = e.maxHp;
+        Console.WriteLine("Click anything to continue");
+        Console.ReadLine();
 
         return (p, e);
     }
 
-    protected static (Player, Enemy) LightAttack(Player p, Enemy e)
+    private void TakeDamage(int amount)
     {
-        Console.WriteLine("Light Attack Type Shit");
-
-        return (p, e);
+        hp -= amount;
     }
 
-    protected static (Player, Enemy) HeavyAttack(Player p, Enemy e)
+    private void Heal(int amount)
     {
-        Console.WriteLine("Light Attack Type Shit");
+        hp += amount;
+    }
+    protected virtual void LightAttack(Character target)
+    {   
+        Random generator = new();
+        int dmg;
 
-        return (p, e);
+        dmg = generator.Next(10, 21);
+        Console.WriteLine($"{target.name} took {dmg} damage");
+
+
+        target.TakeDamage(dmg);
     }
 
-    protected static (Player, Enemy) Rest(Player p, Enemy e)
+    protected virtual void HeavyAttack(Character target)
     {
+        
+        Random generator = new();
+        int dmg;
 
+        dmg = generator.Next(20, 41);
+        Console.WriteLine($"{target.name} took {dmg} damage");
 
-        return (p, e);
+        target.TakeDamage(dmg);
+
+    }
+
+    protected void Rest(Character self)
+    {
+        Random generator = new();
+        
+        int heal;
+
+        heal = generator.Next(maxHp/7, (maxHp/5)+1);
+        Console.WriteLine($"{self.name} healed {heal} damage");
+
+        self.Heal(heal);
     }
 
     private static void WinCheck(Player p, Enemy e)

@@ -9,7 +9,6 @@ Player p1 = new();
 Enemy e1 = new();
 e1.name = "Bob";
 
-string choice = "";
 string keepPlaying = "yes";
 
 while (keepPlaying == "yes")
@@ -21,6 +20,7 @@ while (keepPlaying == "yes")
 
     Console.Clear();
     Console.WriteLine("Do you want to continue playing");
+    keepPlaying = Console.ReadLine();
 }
 
 Console.WriteLine("Outside the game logic");
