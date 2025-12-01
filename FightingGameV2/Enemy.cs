@@ -7,9 +7,7 @@ public class Enemy : Character
         maxHp = hp;
     }
 
-    // not gonna be used for now
-    // not sure if its gonna be public or private
-    public static (Player, Enemy) AttackLogic(Player p, Enemy e)
+    public void AttackLogic(Player p, Enemy e)
     {
         Random generator = new();
 
@@ -17,17 +15,15 @@ public class Enemy : Character
 
         if (e.choice == 1)
         {
-            e.LightAttack(p);
+            e.LightAttack(p, e);
         }
         else if (e.choice == 2)
         {
-            e.HeavyAttack(p);
+            e.HeavyAttack(p, e);
         }
         else
         {
             e.Rest(e);
         }
-
-        return(p, e);
     }
 }

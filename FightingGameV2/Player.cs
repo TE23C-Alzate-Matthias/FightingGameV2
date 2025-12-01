@@ -5,6 +5,7 @@ public class Player : Character
 {
     // not gonna be used for now
     private int stat;
+    public int StoryPoint;
     public Player()
     {
         stat = 20;
@@ -14,9 +15,8 @@ public class Player : Character
     }
 
     // when i add things to do in between fights, this will get referenced
-    public static (Player, Enemy) WhatToDoFight(Player p, Enemy e)
-    {
-
+    public void WhatToDoFight(Player p, Character e)
+    {   
         string choice = "";
         // list of options
         List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
@@ -43,25 +43,26 @@ public class Player : Character
                 Console.WriteLine("Not a valid answer, please try again");
                 Console.ReadLine();
             }
+
         }
 
+        MakingChoice(choice, p, e);
+    }
+    private void MakingChoice(string choice, Player p, Character e)
+    {
         if (choice == "1")
         {
-            p.LightAttack(e);
+            p.LightAttack(e, p);
         }
         else if (choice == "2")
         {
-            p.HeavyAttack(e);
+            p.HeavyAttack(e, p);
         }
         else
         {
             p.Rest(p);
         }
-
-        return (p, e);
-
     }
-
 
     private void ChooseName()
     {

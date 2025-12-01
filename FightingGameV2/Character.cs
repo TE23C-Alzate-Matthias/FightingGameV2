@@ -21,7 +21,7 @@ public class Character
     protected int dex;
 
     // very simple how the turn ordering will work for now, gonna be changed to have more options
-    public static (Player, Enemy) TurnOrder(Player p, Enemy e)
+    public void TurnOrder(Player p, Enemy e)
     {
 
         Random generator = new();
@@ -34,8 +34,8 @@ public class Character
             Console.WriteLine($"======= ROUND {round} =======");
             Console.WriteLine($"{p.name} Hp: {p.hp} || {e.name} HP: {e.hp}");
 
-            (p, e) = Player.WhatToDoFight(p, e);
-            (p, e) = Enemy.AttackLogic(p, e);
+            p.WhatToDoFight(p, e);
+            e.AttackLogic(p, e);
 
             Console.WriteLine("Click anything to continue");
             Console.ReadLine();
@@ -44,14 +44,11 @@ public class Character
         }
 
         WinCheck(p, e);
-        p.hp = p.maxHp;
-        e.hp = e.maxHp;
+        p.MaxHeal();
+        e.MaxHeal();
         Console.WriteLine("Click anything to continue");
         Console.ReadLine();
-
-        return (p, e);
     }
-
     private void TakeDamage(int amount)
     {
         hp -= amount;
@@ -61,7 +58,11 @@ public class Character
     {
         hp += amount;
     }
-    protected virtual void LightAttack(Character target)
+    private void MaxHeal()
+    {
+        hp = maxHp;
+    }
+    protected virtual void LightAttack(Character target, Character attacker)
     {   
         Random generator = new();
         int dmg;
@@ -72,8 +73,7 @@ public class Character
 
         target.TakeDamage(dmg);
     }
-
-    protected virtual void HeavyAttack(Character target)
+    protected virtual void HeavyAttack(Character target, Character attacker)
     {
         
         Random generator = new();
@@ -85,7 +85,6 @@ public class Character
         target.TakeDamage(dmg);
 
     }
-
     protected void Rest(Character self)
     {
         Random generator = new();
@@ -97,16 +96,22 @@ public class Character
 
         self.Heal(heal);
     }
-
-    private static void WinCheck(Player p, Enemy e)
+    // gonna try to move the turn choice into here
+    protected void TurnChoice(int num)
     {
-        if (p.hp == 0)
+        
+    }
+    private void WinCheck(Player p, Character e)
+    {
+        if (e.hp == 0)
         {
             Console.WriteLine("You won!");
+            p.StoryPoint++;
         }
-        else if (e.hp == 0)
+        else if (p.hp == 0)
         {
             Console.WriteLine("You lost!");
+            p.StoryPoint = 4;
         }
         else
         {
