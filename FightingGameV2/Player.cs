@@ -17,6 +17,7 @@ public class Player : Character
     // when i add things to do in between fights, this will get referenced
     public void WhatToDoFight(Player p, Character e)
     {   
+        int num = 0;
         string choice = "";
         // list of options
         List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
@@ -34,7 +35,8 @@ public class Player : Character
             choice = Console.ReadLine();
             // goes out of the while
             if (choice == "1" || choice == "2" || choice == "3")
-            {
+            {   
+                int.TryParse(choice, out num);
                 break;
             }
             // says its invalid option
@@ -46,22 +48,7 @@ public class Player : Character
 
         }
 
-        MakingChoice(choice, p, e);
-    }
-    private void MakingChoice(string choice, Player p, Character e)
-    {
-        if (choice == "1")
-        {
-            p.LightAttack(e, p);
-        }
-        else if (choice == "2")
-        {
-            p.HeavyAttack(e, p);
-        }
-        else
-        {
-            p.Rest(p);
-        }
+        TurnChoice(num, p, e);
     }
 
     private void ChooseName()

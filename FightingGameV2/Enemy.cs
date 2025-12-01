@@ -11,19 +11,8 @@ public class Enemy : Character
     {
         Random generator = new();
 
-        e.choice = generator.Next(1, 4);
+        choice = generator.Next(1, 4);
 
-        if (e.choice == 1)
-        {
-            e.LightAttack(p, e);
-        }
-        else if (e.choice == 2)
-        {
-            e.HeavyAttack(p, e);
-        }
-        else
-        {
-            e.Rest(e);
-        }
+        TurnChoice(choice, e, p);
     }
 }

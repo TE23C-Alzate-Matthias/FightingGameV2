@@ -20,6 +20,8 @@ public class Character
     protected int acc;
     protected int dex;
 
+    private Random generator = new();
+
     // very simple how the turn ordering will work for now, gonna be changed to have more options
     public void TurnOrder(Player p, Enemy e)
     {
@@ -49,22 +51,23 @@ public class Character
         Console.WriteLine("Click anything to continue");
         Console.ReadLine();
     }
+    // makes a character take damage
     private void TakeDamage(int amount)
     {
         hp -= amount;
     }
-
+    // makes a character heal
     private void Heal(int amount)
     {
         hp += amount;
     }
+    // fully heals a character
     private void MaxHeal()
     {
         hp = maxHp;
     }
-    protected virtual void LightAttack(Character target, Character attacker)
-    {   
-        Random generator = new();
+    private void LightAttack(Character target, Character attacker)
+    {
         int dmg;
 
         dmg = generator.Next(10, 21);
@@ -73,10 +76,8 @@ public class Character
 
         target.TakeDamage(dmg);
     }
-    protected virtual void HeavyAttack(Character target, Character attacker)
+    private void HeavyAttack(Character target, Character attacker)
     {
-        
-        Random generator = new();
         int dmg;
 
         dmg = generator.Next(20, 41);
@@ -85,21 +86,30 @@ public class Character
         target.TakeDamage(dmg);
 
     }
-    protected void Rest(Character self)
-    {
-        Random generator = new();
-        
+    private void Rest(Character self)
+    {   
         int heal;
 
+        // looks at the characters maxHp and makes you heal somewhere between a 7th and a 5th of the hp
         heal = generator.Next(maxHp/7, (maxHp/5)+1);
         Console.WriteLine($"{self.name} healed {heal} damage");
 
         self.Heal(heal);
     }
-    // gonna try to move the turn choice into here
-    protected void TurnChoice(int num)
+    protected void TurnChoice(int choice, Character self, Character target)
     {
-        
+        if (choice == 1)
+        {
+            self.LightAttack(target, self);
+        }
+        else if (choice == 2)
+        {
+            self.HeavyAttack(target, self);
+        }
+        else
+        {
+            self.Rest(self);
+        }
     }
     private void WinCheck(Player p, Character e)
     {
