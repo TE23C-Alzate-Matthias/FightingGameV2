@@ -20,13 +20,11 @@ public class Character
     protected int acc;
     protected int dex;
 
-    private Random generator = new();
+    protected Random generator = new();
 
     // very simple how the turn ordering will work for now, gonna be changed to have more options
     public void TurnOrder(Player p, Enemy e)
     {
-
-        Random generator = new();
         int round = 0;
 
         while (p.hp > 0 && e.hp > 0)
@@ -36,35 +34,38 @@ public class Character
             Console.WriteLine($"======= ROUND {round} =======");
             Console.WriteLine($"{p.name} Hp: {p.hp} || {e.name} HP: {e.hp}");
 
-            p.WhatToDoFight(p, e);
-            e.AttackLogic(p, e);
+            if (p.hp > 0)
+            {
+                p.WhatToDoFight(p, e);
+            }
+            if (e.hp > 0)
+            {
+                e.AttackLogic(p, e);
+            }
 
             Console.WriteLine("Click anything to continue");
             Console.ReadLine();
-            p.hp = Math.Max(0, p.hp);
-            e.hp = Math.Max(0, e.hp);
         }
 
         WinCheck(p, e);
-        p.MaxHeal();
-        e.MaxHeal();
+        p.Heal(maxHp);
+        e.Heal(maxHp);
         Console.WriteLine("Click anything to continue");
         Console.ReadLine();
     }
     // makes a character take damage
     private void TakeDamage(int amount)
-    {
+    {   
         hp -= amount;
+        // makes sure the damage does not make the hp go bellow 0
+        hp = Math.Max(hp, 0);
     }
     // makes a character heal
     private void Heal(int amount)
     {
         hp += amount;
-    }
-    // fully heals a character
-    private void MaxHeal()
-    {
-        hp = maxHp;
+        // makes sure the healing does not go above the maxHp
+        hp = Math.Min(hp, maxHp);
     }
     private void LightAttack(Character target, Character attacker)
     {
@@ -72,9 +73,8 @@ public class Character
 
         dmg = generator.Next(10, 21);
         Console.WriteLine($"{target.name} took {dmg} damage");
-
-
         target.TakeDamage(dmg);
+
     }
     private void HeavyAttack(Character target, Character attacker)
     {
@@ -96,8 +96,9 @@ public class Character
 
         self.Heal(heal);
     }
+    // method for both player and enemy which uses to know what they want to do
     protected void TurnChoice(int choice, Character self, Character target)
-    {
+    {   
         if (choice == 1)
         {
             self.LightAttack(target, self);
@@ -111,6 +112,7 @@ public class Character
             self.Rest(self);
         }
     }
+    // checks who
     private void WinCheck(Player p, Character e)
     {
         if (e.hp == 0)
