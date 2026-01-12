@@ -53,7 +53,7 @@ public class Player : Character
     }
     // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
     // REMEMBER TO MAKE THIS METHOD LESS REPETETIVE AND BREAK UP INTO SMALLER METHODS
-    public void stats()
+    public void Stats()
     {
         int choice = 0;
         string option;

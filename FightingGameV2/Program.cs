@@ -35,7 +35,7 @@ while (keepPlaying == "yes")
 {   
     Console.Clear();
     Console.WriteLine("Inside the game logic");
-    p1.stats();
+    p1.Stats();
     Console.ReadLine();
     p1.TurnOrder(p1, e1);
 

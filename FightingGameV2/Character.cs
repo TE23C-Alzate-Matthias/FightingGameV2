@@ -67,6 +67,7 @@ public class Character
         // makes sure the healing does not go above the maxHp
         hp = Math.Min(hp, maxHp);
     }
+    // light attack method both players can use
     private void LightAttack(Character target, Character attacker)
     {
         int dmg;
@@ -76,6 +77,7 @@ public class Character
         target.TakeDamage(dmg);
 
     }
+    // heavy attack method both players can use
     private void HeavyAttack(Character target, Character attacker)
     {
         int dmg;
@@ -112,19 +114,22 @@ public class Character
             self.Rest(self);
         }
     }
-    // checks who
+    // checks who wins
     private void WinCheck(Player p, Character e)
-    {
+    {   
+        // if enemy hp is 0, you win
         if (e.hp == 0)
         {
             Console.WriteLine("You won!");
             p.StoryPoint++;
         }
+        // if player hp is 0, you lose
         else if (p.hp == 0)
         {
             Console.WriteLine("You lost!");
             p.StoryPoint = 4;
         }
+        // if both hp is 0, its a draw
         else
         {
             Console.WriteLine("Its a draw!");
