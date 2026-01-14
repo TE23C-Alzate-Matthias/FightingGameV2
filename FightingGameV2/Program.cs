@@ -27,7 +27,7 @@ Console.WriteLine("Click Anything to Continue");
 Player p1 = new();
 
 Enemy e1 = new();
-e1.GiveStats("bob", 10, 5, 0, 0, 5, 5);
+e1.GiveStats("bob", 5, 5, 0, 0, 5, 5);
 
 string keepPlaying = "yes";
 

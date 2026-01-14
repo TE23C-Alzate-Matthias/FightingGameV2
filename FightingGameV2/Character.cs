@@ -93,7 +93,7 @@ public class Character
         int heal;
 
         // looks at the characters maxHp and makes you heal somewhere between a 7th and a 5th of the hp
-        heal = generator.Next(maxHp/7, (maxHp/5)+1);
+        heal = generator.Next(maxHp/10, (maxHp/7)+1);
         Console.WriteLine($"{self.name} healed {heal} damage");
 
         self.Heal(heal);

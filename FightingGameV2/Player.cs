@@ -6,7 +6,8 @@ public class Player : Character
     // not gonna be used for now
     public int StoryPoint;
     private int stat;
-
+    // ment to be used
+    private Dictionary<int, Action> actions = new();
     public Player()
     {
         stat = 20;
@@ -56,11 +57,10 @@ public class Player : Character
     public void Stats()
     {
         int choice = 0;
-        string option;
-        string[] acceptable = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        int[] acceptable = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         while (choice != 9)
         {
-
+            choice = 0;
             Console.Clear();
             Console.WriteLine($"Stat Points Left: {stat}");
             Console.WriteLine("Add statpoints to your character:\n");
@@ -76,14 +76,14 @@ public class Player : Character
             Console.WriteLine($"8) Reset stat Point");
             Console.WriteLine($"9) Exit");
 
-            option = Console.ReadLine();
-            int.TryParse(option, out choice);
-
-            while (!acceptable.Contains(option))
+            while (!acceptable.Contains(choice))
             {
-                Console.WriteLine("Unknown option, please try again");
-                option = Console.ReadLine();
-                int.TryParse(option, out choice);
+                var key = Console.ReadKey();
+                int.TryParse(key.KeyChar.ToString(), out choice);
+                if (!acceptable.Contains(choice))
+                {
+                    Console.WriteLine("Unknown option, please try again");
+                }
             }
 
             if (choice == 7)
@@ -100,20 +100,7 @@ public class Player : Character
             }
             else if (choice == 8)
             {
-                Console.WriteLine("Are you sure you want to reset your stats?");
-                Console.WriteLine("Write 'yes' if you are sure");
-                option = Console.ReadLine();
-                if (option == "yes")
-                {
-
-                    stat += vt + atk + def + spd + acc + dex;
-                    vt = 0;
-                    atk = 0;
-                    def = 0;
-                    spd = 0;
-                    acc = 0;
-                    dex = 0;
-                }
+                ResetPoint();
             }
             else if (choice == 9)
             {
@@ -128,29 +115,7 @@ public class Player : Character
             // got help with chatGPT to make this more compact
             else if (choice >= 1 && choice <= 6)
             {
-                // deduct one stat point and increase the chosen stat
-                stat--;
-                switch (choice)
-                {
-                    case 1:
-                        vt++;
-                        break;
-                    case 2:
-                        atk++;
-                        break;
-                    case 3:
-                        def++;
-                        break;
-                    case 4:
-                        spd++;
-                        break;
-                    case 5:
-                        acc++;
-                        break;
-                    case 6:
-                        dex++;
-                        break;
-                }
+               AddPoints(choice);
             }
             hp = 100 + (10 * vt);
             Console.Clear();
@@ -158,7 +123,72 @@ public class Player : Character
         maxHp = hp;
 
     }
+    private void ResetPoint()
+    {   
+        Console.Clear();
+        string option;
+        Console.WriteLine("Are you sure you want to reset your stats?");
+                Console.WriteLine("Write 'yes' if you are sure");
+                option = Console.ReadLine();
+                if (option == "yes")
+                {
 
+                    stat += vt + atk + def + spd + acc + dex;
+                    vt = 0;
+                    atk = 0;
+                    def = 0;
+                    spd = 0;
+                    acc = 0;
+                    dex = 0;
+                }
+                else
+                {
+                    Console.WriteLine("Reset Cancelled");
+                    Console.ReadLine();
+                }
+    }
+    // currently just a placeholder way to add more stats and stuff before using a dictionary to make it easier
+    private void AddPoints(int answer)
+    {   
+        Console.Clear();
+        int amount = 0;
+        string option;
+        Console.WriteLine("How many points do you want to add?");
+        Console.WriteLine($"You have {stat} total points left");
+        while(amount < stat || amount > stat)
+        {
+            option = Console.ReadLine();
+            int.TryParse(option, out amount);
+            if(amount < 0 || amount > stat)
+            {
+                Console.WriteLine("Not a valid number, please try again");
+            }
+        }
+        stat =- amount;
+         switch (answer)
+                {
+                    case 1:
+                        vt =+ amount;
+                        break;
+                    case 2:
+                        atk =+ amount;
+                        break;
+                    case 3:
+                        def =+ amount;
+                        break;
+                    case 4:
+                        spd =+ amount;
+                        break;
+                    case 5:
+                        acc =+ amount;
+                        break;
+                    case 6:
+                        dex =+ amount;
+                        break;
+                }
+
+
+    }
     // method to give the character a name
     private void ChooseName()
     {
