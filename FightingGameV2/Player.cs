@@ -11,8 +11,8 @@ public class Player : Character
     public Player()
     {
         stat = 20;
-        hp = 100;
-        maxHp = hp;
+        Hp = 100;
+        MaxHp = Hp;
         ChooseName();
     }
 
@@ -64,22 +64,22 @@ public class Player : Character
             Console.Clear();
             Console.WriteLine($"Stat Points Left: {stat}");
             Console.WriteLine("Add statpoints to your character:\n");
-            Console.WriteLine($"Player Max Hp: {hp}");
+            Console.WriteLine($"Player Max Hp: {Hp}");
 
-            Console.WriteLine($"1) Vt: {vt}");
-            Console.WriteLine($"2) Atk: {atk}");
-            Console.WriteLine($"3) Def: {def}");
-            Console.WriteLine($"4) Spd: {spd}");
-            Console.WriteLine($"5) Acc: {acc}");
-            Console.WriteLine($"6) Dex: {dex}");
+            Console.WriteLine($"1) Vt: {Vt}");
+            Console.WriteLine($"2) Atk: {Atk}");
+            Console.WriteLine($"3) Def: {Def}");
+            Console.WriteLine($"4) Spd: {Spd}");
+            Console.WriteLine($"5) Acc: {Acc}");
+            Console.WriteLine($"6) Dex: {Dex}");
             Console.WriteLine($"7) Help");
             Console.WriteLine($"8) Reset stat Point");
             Console.WriteLine($"9) Exit");
 
             while (!acceptable.Contains(choice))
             {
-                var key = Console.ReadKey();
-                int.TryParse(key.KeyChar.ToString(), out choice);
+                string option = Console.ReadLine();
+                int.TryParse(option, out choice);
                 if (!acceptable.Contains(choice))
                 {
                     Console.WriteLine("Unknown option, please try again");
@@ -117,10 +117,10 @@ public class Player : Character
             {
                AddPoints(choice);
             }
-            hp = 100 + (10 * vt);
+            Hp = 100 + (10 * Vt);
             Console.Clear();
         }
-        maxHp = hp;
+        MaxHp = Hp;
 
     }
     private void ResetPoint()
@@ -133,13 +133,13 @@ public class Player : Character
                 if (option == "yes")
                 {
 
-                    stat += vt + atk + def + spd + acc + dex;
-                    vt = 0;
-                    atk = 0;
-                    def = 0;
-                    spd = 0;
-                    acc = 0;
-                    dex = 0;
+                    stat += Vt + Atk + Def + Spd + Acc + Dex;
+                    Vt = 0;
+                    Atk = 0;
+                    Def = 0;
+                    Spd = 0;
+                    Acc = 0;
+                    Dex = 0;
                 }
                 else
                 {
@@ -168,35 +168,35 @@ public class Player : Character
          switch (answer)
                 {
                     case 1:
-                        vt =+ amount;
+                        Vt =+ amount;
                         break;
                     case 2:
-                        atk =+ amount;
+                        Atk =+ amount;
                         break;
                     case 3:
-                        def =+ amount;
+                        Def =+ amount;
                         break;
                     case 4:
-                        spd =+ amount;
+                        Spd =+ amount;
                         break;
                     case 5:
-                        acc =+ amount;
+                        Acc =+ amount;
                         break;
                     case 6:
-                        dex =+ amount;
+                        Dex =+ amount;
                         break;
                 }
 
 
     }
-    // method to give the character a name
+    // method to give the character a Name
     private void ChooseName()
     {
         string choice = "";
 
         while (choice != "yes")
         {
-            name = "";
+            Name = "";
 
             // checks if the given text has numbers in it, if it has its on true, if not its on false
             bool ContainsNumbers(string input)
@@ -204,35 +204,35 @@ public class Player : Character
                 return Regex.IsMatch(input, @"\d");
             }
 
-            while (name.Length < 3 || name.Length > 15 || ContainsNumbers(name))
+            while (Name.Length < 3 || Name.Length > 15 || ContainsNumbers(Name))
             {
                 Console.ReadLine();
                 Console.Clear();
-                // lets you choose your name
-                Console.WriteLine("Choose your Characters name (3-14 Characters long, no numbers)");
-                name = Console.ReadLine();
+                // lets you choose your Name
+                Console.WriteLine("Choose your Characters Name (3-14 Characters long, no numbers)");
+                Name = Console.ReadLine();
 
-                // if the name is shorter than 3 it tells me to try again
-                if (name.Length < 3)
+                // if the Name is shorter than 3 it tells me to try again
+                if (Name.Length < 3)
                 {
                     Console.WriteLine("Name is to short, please try again");
 
                 }
                 // same thing but if longer than 15
-                else if (name.Length > 15)
+                else if (Name.Length > 15)
                 {
                     Console.WriteLine("Namn is to long, please try again");
 
                 }
                 // same thing but if it has numbers in it
-                else if (ContainsNumbers(name))
+                else if (ContainsNumbers(Name))
                 {
                     Console.WriteLine("Name has numbers in it, please try again");
 
                 }
             }
 
-            Console.WriteLine($"Your Characters name is {name}, is this correct? [yes/no]");
+            Console.WriteLine($"Your Characters Name is {Name}, is this correct? [yes/no]");
             choice = Console.ReadLine();
             choice = choice.ToLower();
         }

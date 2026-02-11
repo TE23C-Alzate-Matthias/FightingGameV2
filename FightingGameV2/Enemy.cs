@@ -10,18 +10,4 @@ public class Enemy : Character
 
         TurnChoice(choice, e, p);
     }
-
-    public void GiveStats(string naming, int vtP, int atkP, int defP, int spdP, int accP, int dexP)
-    {   
-        name = naming;
-        vt = vtP;
-        atk = atkP;
-        def = defP;
-        spd = spdP;
-        acc = accP;
-        dex = dexP;
-        hp = 100 + vt * 10;
-        maxHp = hp;
-
-    }
 }

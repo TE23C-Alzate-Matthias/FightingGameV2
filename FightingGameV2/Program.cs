@@ -21,23 +21,33 @@
 //      1. Stats Method
 // 9. Even better Logic for enemies decisions
 
+using System.Text.Json;
+
 Console.WriteLine("Version 2.0");
 Console.WriteLine("Click Anything to Continue");
 
-Player p1 = new();
+string e = File.ReadAllText("enemies.json");
+List<Enemy> enemies = JsonSerializer.Deserialize<List<Enemy>>(e);
 
-Enemy e1 = new();
-e1.GiveStats("bob", 5, 5, 0, 0, 5, 5);
+foreach(Enemy enemy in enemies)
+{
+    Console.WriteLine(enemy.Name);
+}
+Console.ReadLine();
+
+
+Player p1 = new();
 
 string keepPlaying = "yes";
 
+// the game logic
 while (keepPlaying == "yes")
 {   
     Console.Clear();
     Console.WriteLine("Inside the game logic");
     p1.Stats();
     Console.ReadLine();
-    p1.TurnOrder(p1, e1);
+    p1.TurnOrder(p1, enemies[0]);
 
     Console.Clear();
     Console.WriteLine("Do you want to continue playing [yes/no]");

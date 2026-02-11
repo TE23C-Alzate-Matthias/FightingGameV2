@@ -10,15 +10,15 @@ public class Character
     // Acc - Accuracy
     // Dex - Dexterity
 
-    public string name;
-    protected int maxHp;
-    protected int hp { get; set; }
-    protected int vt;
-    protected int atk;
-    protected int def;
-    protected int spd;
-    protected int acc;
-    protected int dex;
+    public string Name { get; set; }
+    protected int MaxHp { get; set; }
+    protected int Hp { get; set; }
+    protected int Vt { get; set; }
+    protected int Atk { get; set; }
+    protected int Def { get; set; }
+    protected int Spd { get; set; }
+    protected int Acc { get; set; }
+    protected int Dex { get; set; }
 
     protected Random generator = new();
 
@@ -26,19 +26,21 @@ public class Character
     public void TurnOrder(Player p, Enemy e)
     {
         int round = 0;
+        e.Hp = e.Vt * 10 + 100;
+        e.MaxHp = e.Hp;
 
-        while (p.hp > 0 && e.hp > 0)
+        while (p.Hp > 0 && e.Hp > 0)
         {
             round++;
             Console.Clear();
             Console.WriteLine($"======= ROUND {round} =======");
-            Console.WriteLine($"{p.name} Hp: {p.hp} || {e.name} HP: {e.hp}");
+            Console.WriteLine($"{p.Name} Hp: {p.Hp} || {e.Name} Hp: {e.Hp}");
 
-            if (p.hp > 0)
+            if (p.Hp > 0)
             {
                 p.WhatToDoFight(p, e);
             }
-            if (e.hp > 0)
+            if (e.Hp > 0)
             {
                 e.AttackLogic(p, e);
             }
@@ -48,32 +50,32 @@ public class Character
         }
 
         WinCheck(p, e);
-        p.Heal(maxHp);
-        e.Heal(maxHp);
+        p.Heal(MaxHp);
+        e.Heal(MaxHp);
         Console.WriteLine("Click anything to continue");
         Console.ReadLine();
     }
     // makes a character take damage
     private void TakeDamage(int amount)
     {   
-        hp -= amount;
-        // makes sure the damage does not make the hp go bellow 0
-        hp = Math.Max(hp, 0);
+        Hp -= amount;
+        // makes sure the damage does not make the Hp go bellow 0
+        Hp = Math.Max(Hp, 0);
     }
     // makes a character heal
     private void Heal(int amount)
     {
-        hp += amount;
-        // makes sure the healing does not go above the maxHp
-        hp = Math.Min(hp, maxHp);
+        Hp += amount;
+        // makes sure the healing does not go above the MaxHp
+        Hp = Math.Min(Hp, MaxHp);
     }
     // light attack method both players can use
     private void LightAttack(Character target, Character attacker)
     {
         int dmg;
 
-        dmg = generator.Next(10, 21);
-        Console.WriteLine($"{target.name} took {dmg} damage");
+        dmg = generator.Next(10 + attacker.Atk, 21 + attacker.Atk);
+        Console.WriteLine($"{target.Name} took {dmg} damage");
         target.TakeDamage(dmg);
 
     }
@@ -82,8 +84,8 @@ public class Character
     {
         int dmg;
 
-        dmg = generator.Next(20, 41);
-        Console.WriteLine($"{target.name} took {dmg} damage");
+        dmg = generator.Next(20 + attacker.Atk, 41 + attacker.Atk);
+        Console.WriteLine($"{target.Name} took {dmg} damage");
 
         target.TakeDamage(dmg);
 
@@ -92,9 +94,9 @@ public class Character
     {   
         int heal;
 
-        // looks at the characters maxHp and makes you heal somewhere between a 7th and a 5th of the hp
-        heal = generator.Next(maxHp/10, (maxHp/7)+1);
-        Console.WriteLine($"{self.name} healed {heal} damage");
+        // looks at the characters MaxHp and makes you heal somewhere between a 7th and a 5th of the Hp
+        heal = generator.Next(MaxHp/10, (MaxHp/7)+1);
+        Console.WriteLine($"{self.Name} healed {heal} damage");
 
         self.Heal(heal);
     }
@@ -117,19 +119,19 @@ public class Character
     // checks who wins
     private void WinCheck(Player p, Character e)
     {   
-        // if enemy hp is 0, you win
-        if (e.hp == 0)
+        // if enemy Hp is 0, you win
+        if (e.Hp == 0)
         {
             Console.WriteLine("You won!");
             p.StoryPoint++;
         }
-        // if player hp is 0, you lose
-        else if (p.hp == 0)
+        // if player Hp is 0, you lose
+        else if (p.Hp == 0)
         {
             Console.WriteLine("You lost!");
             p.StoryPoint = 4;
         }
-        // if both hp is 0, its a draw
+        // if both Hp is 0, its a draw
         else
         {
             Console.WriteLine("Its a draw!");
