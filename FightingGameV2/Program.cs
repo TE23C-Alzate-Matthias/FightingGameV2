@@ -37,12 +37,14 @@ Console.ReadLine();
 
 
 Player p1 = new();
+Player_Naming pN = new();
 
 string keepPlaying = "yes";
 
 // the game logic
 while (keepPlaying == "yes")
 {   
+    pN.ChooseName(p1);
     Console.Clear();
     Console.WriteLine("Inside the game logic");
     p1.Stats();

@@ -5,7 +5,7 @@ public class Player : Character
 {
     // not gonna be used for now
     public int StoryPoint;
-    private int stat;
+    public int stat;
     // ment to be used
     private Dictionary<int, Action> actions = new();
     public Player()
@@ -13,11 +13,10 @@ public class Player : Character
         stat = 20;
         Hp = 100;
         MaxHp = Hp;
-        ChooseName();
     }
 
     // when i add things to do in between fights, this will get referenced
-    public void WhatToDoFight(Player p, Character e)
+    public void WhatToDoFight(Player p, Enemy e)
     {
         int num = 0;
         string choice = "";
@@ -52,7 +51,7 @@ public class Player : Character
 
         TurnChoice(num, p, e);
     }
-    // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
+        // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
     // REMEMBER TO MAKE THIS METHOD LESS REPETETIVE AND BREAK UP INTO SMALLER METHODS
     public void Stats()
     {
@@ -123,7 +122,8 @@ public class Player : Character
         MaxHp = Hp;
 
     }
-    private void ResetPoint()
+
+        private void ResetPoint()
     {   
         Console.Clear();
         string option;
@@ -189,52 +189,5 @@ public class Player : Character
 
 
     }
-    // method to give the character a Name
-    private void ChooseName()
-    {
-        string choice = "";
-
-        while (choice != "yes")
-        {
-            Name = "";
-
-            // checks if the given text has numbers in it, if it has its on true, if not its on false
-            bool ContainsNumbers(string input)
-            {
-                return Regex.IsMatch(input, @"\d");
-            }
-
-            while (Name.Length < 3 || Name.Length > 15 || ContainsNumbers(Name))
-            {
-                Console.ReadLine();
-                Console.Clear();
-                // lets you choose your Name
-                Console.WriteLine("Choose your Characters Name (3-14 Characters long, no numbers)");
-                Name = Console.ReadLine();
-
-                // if the Name is shorter than 3 it tells me to try again
-                if (Name.Length < 3)
-                {
-                    Console.WriteLine("Name is to short, please try again");
-
-                }
-                // same thing but if longer than 15
-                else if (Name.Length > 15)
-                {
-                    Console.WriteLine("Namn is to long, please try again");
-
-                }
-                // same thing but if it has numbers in it
-                else if (ContainsNumbers(Name))
-                {
-                    Console.WriteLine("Name has numbers in it, please try again");
-
-                }
-            }
-
-            Console.WriteLine($"Your Characters Name is {Name}, is this correct? [yes/no]");
-            choice = Console.ReadLine();
-            choice = choice.ToLower();
-        }
-    }
+    
 }

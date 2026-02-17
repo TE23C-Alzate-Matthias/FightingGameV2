@@ -1,4 +1,4 @@
-public class Character
+public abstract class Character
 {
     // ==================== CLASS ====================
 
@@ -11,14 +11,16 @@ public class Character
     // Dex - Dexterity
 
     public string Name { get; set; }
-    protected int MaxHp { get; set; }
-    protected int Hp { get; set; }
-    protected int Vt { get; set; }
-    protected int Atk { get; set; }
-    protected int Def { get; set; }
-    protected int Spd { get; set; }
-    protected int Acc { get; set; }
-    protected int Dex { get; set; }
+    // everything is able to see all this variables but just not able to change them.
+    public int MaxHp { get; protected set; }
+    public int Hp { get; protected set; }
+    public int Vt { get; protected set; }
+    public int Atk { get; protected set; }
+    public int Def { get; protected set; }
+    public int Spd { get; protected set; }
+    public int Acc { get; protected set; }
+    public int Dex { get; protected set; }
+
 
     protected Random generator = new();
 
@@ -28,9 +30,10 @@ public class Character
         int round = 0;
         e.Hp = e.Vt * 10 + 100;
         e.MaxHp = e.Hp;
-
+        
         while (p.Hp > 0 && e.Hp > 0)
         {
+            Console.WriteLine(e.Vt);
             round++;
             Console.Clear();
             Console.WriteLine($"======= ROUND {round} =======");
