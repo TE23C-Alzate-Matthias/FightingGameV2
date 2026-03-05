@@ -1,7 +1,7 @@
 // allows me to use Regex to know if an answer has numbers in it
 using System.Text.RegularExpressions;
 
-public class Player : Character
+public class Player : Character, INaming
 {
     // not gonna be used for now
     public int StoryPoint;
@@ -24,7 +24,7 @@ public class Player : Character
         List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
 
         // choose what you want
-        while (choice != "1" || choice != "2" || choice != "3")
+        while (choice != "1" && choice != "2" && choice != "3")
         {
             Console.WriteLine("Who do you want to do?");
             // writes out list
@@ -38,7 +38,6 @@ public class Player : Character
             if (choice == "1" || choice == "2" || choice == "3")
             {
                 int.TryParse(choice, out num);
-                break;
             }
             // says its invalid option
             else
@@ -155,39 +154,86 @@ public class Player : Character
         string option;
         Console.WriteLine("How many points do you want to add?");
         Console.WriteLine($"You have {stat} total points left");
-        while(amount < stat || amount > stat)
+        while(amount < 1 || amount > stat)
         {
             option = Console.ReadLine();
             int.TryParse(option, out amount);
-            if(amount < 0 || amount > stat)
+            if(amount <= 1 || amount >= stat)
             {
                 Console.WriteLine("Not a valid number, please try again");
             }
         }
-        stat =- amount;
+        stat -= amount;
          switch (answer)
                 {
                     case 1:
-                        Vt =+ amount;
+                        Vt += amount;
                         break;
                     case 2:
-                        Atk =+ amount;
+                        Atk += amount;
                         break;
                     case 3:
-                        Def =+ amount;
+                        Def += amount;
                         break;
                     case 4:
-                        Spd =+ amount;
+                        Spd += amount;
                         break;
                     case 5:
-                        Acc =+ amount;
+                        Acc += amount;
                         break;
                     case 6:
-                        Dex =+ amount;
+                        Dex += amount;
                         break;
                 }
 
 
     }
-    
+
+    public void ChooseName()
+    {
+        string choice = "";
+
+        while (choice != "yes")
+        {
+            Name = "";
+
+            // checks if the given text has numbers in it, if it has its on true, if not its on false
+            bool ContainsNumbers(string input)
+            {
+                return Regex.IsMatch(input, @"\d");
+            }
+
+            while (Name.Length < 3 || Name.Length > 15 || ContainsNumbers(Name))
+            {
+                Console.ReadLine();
+                Console.Clear();
+                // lets you choose your Name
+                Console.WriteLine("Choose your Characters Name (3-14 Characters long, no numbers)");
+                Name = Console.ReadLine();
+
+                // if the Name is shorter than 3 it tells me to try again
+                if (Name.Length < 3)
+                {
+                    Console.WriteLine("Name is to short, please try again");
+
+                }
+                // same thing but if longer than 15
+                else if (Name.Length > 15)
+                {
+                    Console.WriteLine("Namn is to long, please try again");
+
+                }
+                // same thing but if it has numbers in it
+                else if (ContainsNumbers(Name))
+                {
+                    Console.WriteLine("Name has numbers in it, please try again");
+
+                }
+            }
+
+            Console.WriteLine($"Your Characters Name is {Name}, is this correct? [yes/no]");
+            choice = Console.ReadLine();
+            choice = choice.ToLower();
+        }
+    }
 }

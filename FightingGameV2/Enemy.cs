@@ -1,5 +1,5 @@
 public class Enemy : Character
-{
+{   
     public void AttackLogic(Player p, Enemy e)
     {   
         int choice;

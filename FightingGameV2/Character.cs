@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using FightingGameV2;
 public abstract class Character
 {
     // ==================== CLASS ====================
@@ -12,13 +14,22 @@ public abstract class Character
 
     public string Name { get; set; }
     // everything is able to see all this variables but just not able to change them.
+    // [JsonInculde] makes that when i read from the Json, its able to change the stats of the characters that are needed to be changed
+    [JsonInclude]
     public int MaxHp { get; protected set; }
+    [JsonInclude]
     public int Hp { get; protected set; }
+    [JsonInclude]
     public int Vt { get; protected set; }
+    [JsonInclude]
     public int Atk { get; protected set; }
+    [JsonInclude]
     public int Def { get; protected set; }
+    [JsonInclude]
     public int Spd { get; protected set; }
+    [JsonInclude]
     public int Acc { get; protected set; }
+    [JsonInclude]
     public int Dex { get; protected set; }
 
 
@@ -33,9 +44,9 @@ public abstract class Character
         
         while (p.Hp > 0 && e.Hp > 0)
         {
-            Console.WriteLine(e.Vt);
             round++;
             Console.Clear();
+            Console.WriteLine(e.Vt);
             Console.WriteLine($"======= ROUND {round} =======");
             Console.WriteLine($"{p.Name} Hp: {p.Hp} || {e.Name} Hp: {e.Hp}");
 
@@ -52,7 +63,7 @@ public abstract class Character
             Console.ReadLine();
         }
 
-        WinCheck(p, e);
+        Fight.WinCheck(p, e);
         p.Heal(MaxHp);
         e.Heal(MaxHp);
         Console.WriteLine("Click anything to continue");
@@ -119,28 +130,4 @@ public abstract class Character
             self.Rest(self);
         }
     }
-    // checks who wins
-    private void WinCheck(Player p, Character e)
-    {   
-        // if enemy Hp is 0, you win
-        if (e.Hp == 0)
-        {
-            Console.WriteLine("You won!");
-            p.StoryPoint++;
-        }
-        // if player Hp is 0, you lose
-        else if (p.Hp == 0)
-        {
-            Console.WriteLine("You lost!");
-            p.StoryPoint = 4;
-        }
-        // if both Hp is 0, its a draw
-        else
-        {
-            Console.WriteLine("Its a draw!");
-        }
-        
-    }
-
-
 }

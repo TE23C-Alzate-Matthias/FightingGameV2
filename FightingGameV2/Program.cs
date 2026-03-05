@@ -22,34 +22,33 @@
 // 9. Even better Logic for enemies decisions
 
 using System.Text.Json;
-
 Console.WriteLine("Version 2.0");
 Console.WriteLine("Click Anything to Continue");
-
 string e = File.ReadAllText("enemies.json");
 List<Enemy> enemies = JsonSerializer.Deserialize<List<Enemy>>(e);
 
-foreach(Enemy enemy in enemies)
-{
-    Console.WriteLine(enemy.Name);
-}
-Console.ReadLine();
-
-
 Player p1 = new();
-Player_Naming pN = new();
 
 string keepPlaying = "yes";
 
 // the game logic
 while (keepPlaying == "yes")
 {   
-    pN.ChooseName(p1);
+    p1.ChooseName();
     Console.Clear();
     Console.WriteLine("Inside the game logic");
     p1.Stats();
-    Console.ReadLine();
-    p1.TurnOrder(p1, enemies[0]);
+    foreach(Enemy enemy in enemies)
+    {
+        p1.TurnOrder(p1, enemy);
+        // check for if you have died and lost
+        if (p1.StoryPoint == 4)
+        {
+            Console.WriteLine("You died and lost");
+            Console.ReadKey();
+            break;
+        }
+    }
 
     Console.Clear();
     Console.WriteLine("Do you want to continue playing [yes/no]");
