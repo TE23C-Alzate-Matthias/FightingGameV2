@@ -8,18 +8,11 @@
 //        | | | |__| |   | |__| | |__| |   | |____ _| |_ ____) |  | |   
 //        |_|  \____/    |_____/ \____/    |______|_____|_____/   |_|                                                                      
 //                                                                      
-// 4. Update so the attacks uses the stats (SPD is gonna be unusable for a long while)
-// 5. Add more different enemies to fight
-// 6. Add an in between menu for the player to do stuff
-//      1. Start Next Fight
-//      2. Check Players Stats
-//      3. Check Enemies Stats
-//      4. Stat Menu To Reconfig Stats
-//      4. Exit Game
-// 7. A bit better Logic for enemies decisions
-// 8. Optimise different methods by splitting them or better code
+// 7. Add a simple inventory for the player, with some items they can put on.
+// 8. A bit better Logic for enemies decisions
+// 9. Optimise different methods by splitting them or better code
 //      1. Stats Method
-// 9. Even better Logic for enemies decisions
+// 10. Even better Logic for enemies decisions
 
 using System.Text.Json;
 Console.WriteLine("Version 2.0");
@@ -40,7 +33,7 @@ while (keepPlaying == "yes")
     p1.Stats();
     foreach(Enemy enemy in enemies)
     {
-        p1.TurnOrder(p1, enemy);
+        Menu.Intermission(p1, enemy);
         // check for if you have died and lost
         if (p1.StoryPoint == 4)
         {
@@ -68,4 +61,11 @@ Console.ReadLine();
 //                                                   
 // 1. Add so if one is downed they cant attack
 // 2. Add so you can customize your player with stats
-// 3. Give the enemy stats easily                                  
+// 3. Give the enemy stats easily  
+// 4. Update so the attacks uses the stats (SPD is gonna be unusable for a long while)
+// 5. Add more different enemies to fight
+// 6. Add an in between menu for the player to do stuff
+//      1. Check Players Stats
+//      2. Check Enemies Stats
+//      3. Start Next Fight
+//      4. Exit Game                              

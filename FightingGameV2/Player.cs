@@ -7,7 +7,6 @@ public class Player : Character, INaming
     public int StoryPoint;
     public int stat;
     // ment to be used
-    private Dictionary<int, Action> actions = new();
     public Player()
     {
         stat = 20;
@@ -186,7 +185,6 @@ public class Player : Character, INaming
                         break;
                 }
 
-
     }
 
     public void ChooseName()
@@ -205,7 +203,6 @@ public class Player : Character, INaming
 
             while (Name.Length < 3 || Name.Length > 15 || ContainsNumbers(Name))
             {
-                Console.ReadLine();
                 Console.Clear();
                 // lets you choose your Name
                 Console.WriteLine("Choose your Characters Name (3-14 Characters long, no numbers)");

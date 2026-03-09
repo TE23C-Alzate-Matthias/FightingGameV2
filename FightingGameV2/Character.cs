@@ -33,7 +33,7 @@ public abstract class Character
     public int Dex { get; protected set; }
 
 
-    protected Random generator = new();
+    protected static Random generator = new();
 
     // very simple how the turn ordering will work for now, gonna be changed to have more options
     public void TurnOrder(Player p, Enemy e)
@@ -88,7 +88,7 @@ public abstract class Character
     {
         int dmg;
 
-        dmg = generator.Next(10 + attacker.Atk, 21 + attacker.Atk);
+        dmg = generator.Next(10 + attacker.Atk, 21 + attacker.Atk) - target.Def;
         Console.WriteLine($"{target.Name} took {dmg} damage");
         target.TakeDamage(dmg);
 
@@ -98,7 +98,7 @@ public abstract class Character
     {
         int dmg;
 
-        dmg = generator.Next(20 + attacker.Atk, 41 + attacker.Atk);
+        dmg = generator.Next(20 + attacker.Atk, 41 + attacker.Atk) - target.Def;
         Console.WriteLine($"{target.Name} took {dmg} damage");
 
         target.TakeDamage(dmg);
@@ -114,16 +114,44 @@ public abstract class Character
 
         self.Heal(heal);
     }
+    // a check to see if an attack hits
+    private static bool AttackCheck(int chance, Character target, Character attacker)
+    {
+        bool hits = false;
+        int accuracy;
+        accuracy = generator.Next(1, 101);
+
+        if(accuracy < chance - attacker.Acc + target.Dex)
+        {   
+            Console.WriteLine($"{attacker.Name} missed their attack\n");
+            hits = false;
+        }
+        else
+        {
+            hits = true;
+        }
+        return hits;
+    }
+
     // method for both player and enemy which uses to know what they want to do
     protected void TurnChoice(int choice, Character self, Character target)
     {   
+        bool hits;
         if (choice == 1)
-        {
-            self.LightAttack(target, self);
+        {   
+            hits = AttackCheck(80, target, self);
+            if (hits == true)
+            {
+                self.LightAttack(target, self);
+            }
         }
         else if (choice == 2)
-        {
-            self.HeavyAttack(target, self);
+        {   
+            hits = AttackCheck(30, target, self);
+            if (hits == true)
+            {
+                self.HeavyAttack(target, self);  
+            }
         }
         else
         {
