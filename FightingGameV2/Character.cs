@@ -52,11 +52,11 @@ public abstract class Character
 
             if (p.Hp > 0)
             {
-                p.WhatToDoFight(p, e);
+                p.AttackChoice(p, e);
             }
             if (e.Hp > 0)
             {
-                e.AttackLogic(p, e);
+                e.AttackChoice(p, e);
             }
 
             Console.WriteLine("Click anything to continue");
@@ -98,7 +98,7 @@ public abstract class Character
     {
         int dmg;
 
-        dmg = generator.Next(20 + attacker.Atk, 41 + attacker.Atk) - target.Def;
+        dmg = generator.Next(20 + attacker.Atk, 41 + (attacker.Atk * 2)) - target.Def;
         Console.WriteLine($"{target.Name} took {dmg} damage");
 
         target.TakeDamage(dmg);

@@ -1,7 +1,7 @@
-public class Enemy : Character
-{   
-    public void AttackLogic(Player p, Enemy e)
-    {   
+public class Enemy : Character, IAttacking
+{
+    public void AttackChoice(Player p, Enemy e)
+    {
         int choice;
 
         // currently just randomly generates a number between 1 and 3 to choose there action

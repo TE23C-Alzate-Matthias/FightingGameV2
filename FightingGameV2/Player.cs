@@ -1,12 +1,12 @@
 // allows me to use Regex to know if an answer has numbers in it
 using System.Text.RegularExpressions;
 
-public class Player : Character, INaming
+public class Player : Character, INaming, IAttacking, IMenuOption
 {
     // not gonna be used for now
     public int StoryPoint;
-    public int stat;
-    // ment to be used
+    public int stat { get; private set; }
+    public int gold { get; private set; }
     public Player()
     {
         stat = 20;
@@ -14,42 +14,7 @@ public class Player : Character, INaming
         MaxHp = Hp;
     }
 
-    // when i add things to do in between fights, this will get referenced
-    public void WhatToDoFight(Player p, Enemy e)
-    {
-        int num = 0;
-        string choice = "";
-        // list of options
-        List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
-
-        // choose what you want
-        while (choice != "1" && choice != "2" && choice != "3")
-        {
-            Console.WriteLine("Who do you want to do?");
-            // writes out list
-            for (int i = 0; i < options.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {options[i]}");
-            }
-            // reads choice
-            choice = Console.ReadLine();
-            // goes out of the while
-            if (choice == "1" || choice == "2" || choice == "3")
-            {
-                int.TryParse(choice, out num);
-            }
-            // says its invalid option
-            else
-            {
-                Console.WriteLine("Not a valid answer, please try again");
-                Console.ReadLine();
-            }
-
-        }
-
-        TurnChoice(num, p, e);
-    }
-        // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
+    // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
     // REMEMBER TO MAKE THIS METHOD LESS REPETETIVE AND BREAK UP INTO SMALLER METHODS
     public void Stats()
     {
@@ -58,20 +23,8 @@ public class Player : Character, INaming
         while (choice != 9)
         {
             choice = 0;
-            Console.Clear();
-            Console.WriteLine($"Stat Points Left: {stat}");
-            Console.WriteLine("Add statpoints to your character:\n");
-            Console.WriteLine($"Player Max Hp: {Hp}");
 
-            Console.WriteLine($"1) Vt: {Vt}");
-            Console.WriteLine($"2) Atk: {Atk}");
-            Console.WriteLine($"3) Def: {Def}");
-            Console.WriteLine($"4) Spd: {Spd}");
-            Console.WriteLine($"5) Acc: {Acc}");
-            Console.WriteLine($"6) Dex: {Dex}");
-            Console.WriteLine($"7) Help");
-            Console.WriteLine($"8) Reset stat Point");
-            Console.WriteLine($"9) Exit");
+            MenuOption();
 
             while (!acceptable.Contains(choice))
             {
@@ -112,7 +65,7 @@ public class Player : Character, INaming
             // got help with chatGPT to make this more compact
             else if (choice >= 1 && choice <= 6)
             {
-               AddPoints(choice);
+                AddPoints(choice);
             }
             Hp = 100 + (10 * Vt);
             Console.Clear();
@@ -121,69 +74,69 @@ public class Player : Character, INaming
 
     }
 
-        private void ResetPoint()
-    {   
+    private void ResetPoint()
+    {
         Console.Clear();
         string option;
         Console.WriteLine("Are you sure you want to reset your stats?");
-                Console.WriteLine("Write 'yes' if you are sure");
-                option = Console.ReadLine();
-                if (option == "yes")
-                {
+        Console.WriteLine("Write 'yes' if you are sure");
+        option = Console.ReadLine();
+        if (option == "yes")
+        {
 
-                    stat += Vt + Atk + Def + Spd + Acc + Dex;
-                    Vt = 0;
-                    Atk = 0;
-                    Def = 0;
-                    Spd = 0;
-                    Acc = 0;
-                    Dex = 0;
-                }
-                else
-                {
-                    Console.WriteLine("Reset Cancelled");
-                    Console.ReadLine();
-                }
+            stat += Vt + Atk + Def + Spd + Acc + Dex;
+            Vt = 0;
+            Atk = 0;
+            Def = 0;
+            Spd = 0;
+            Acc = 0;
+            Dex = 0;
+        }
+        else
+        {
+            Console.WriteLine("Reset Cancelled");
+            Console.ReadLine();
+        }
     }
     // currently just a placeholder way to add more stats and stuff before using a dictionary to make it easier
     private void AddPoints(int answer)
-    {   
+    {
         Console.Clear();
         int amount = 0;
         string option;
         Console.WriteLine("How many points do you want to add?");
         Console.WriteLine($"You have {stat} total points left");
-        while(amount < 1 || amount > stat)
+        while (amount < 1 || amount > stat)
         {
             option = Console.ReadLine();
             int.TryParse(option, out amount);
-            if(amount <= 1 || amount >= stat)
+            if (amount <= 1 || amount >= stat)
             {
                 Console.WriteLine("Not a valid number, please try again");
             }
         }
         stat -= amount;
-         switch (answer)
-                {
-                    case 1:
-                        Vt += amount;
-                        break;
-                    case 2:
-                        Atk += amount;
-                        break;
-                    case 3:
-                        Def += amount;
-                        break;
-                    case 4:
-                        Spd += amount;
-                        break;
-                    case 5:
-                        Acc += amount;
-                        break;
-                    case 6:
-                        Dex += amount;
-                        break;
-                }
+        switch (answer)
+        {
+            case 1:
+                Vt += amount;
+                break;
+            case 2:
+                Atk += amount;
+                break;
+            case 3:
+                Def += amount;
+                break;
+            case 4:
+                Spd += amount;
+                break;
+            case 5:
+                Acc += amount;
+                break;
+            case 6:
+                Dex += amount;
+                break;
+        }
 
     }
 
@@ -231,6 +184,62 @@ public class Player : Character, INaming
             Console.WriteLine($"Your Characters Name is {Name}, is this correct? [yes/no]");
             choice = Console.ReadLine();
             choice = choice.ToLower();
+        }
+    }
+    public void AttackChoice(Player p, Enemy e)
+    {
+        int num = 0;
+        string choice = "";
+
+        // choose what you want
+        while (choice != "1" && choice != "2" && choice != "3")
+        {
+            // list of options
+            List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
+
+            Console.WriteLine("What do you want to do?");
+            // writes out list
+            for (int i = 0; i < options.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {options[i]}");
+            }
+            // reads choice
+            choice = Console.ReadLine();
+            // goes out of the while
+            if (choice == "1" || choice == "2" || choice == "3")
+            {
+                int.TryParse(choice, out num);
+            }
+            // says its invalid option
+            else
+            {
+                Console.WriteLine("Not a valid answer, please try again");
+                Console.ReadLine();
+            }
+
+        }
+
+        TurnChoice(num, p, e);
+    }
+
+    public void MenuOption()
+    {   
+        List<string> options = ["Vt:", "Atk:", "Def:", "Spd:", "Acc:", "Dex:", "Help", "Reset stat point", "Exit"];
+        List<int> total = [Vt, Atk, Def, Spd, Acc, Dex];
+        Console.Clear();
+        Console.WriteLine($"Stat Points Left: {stat}");
+        Console.WriteLine("Add statpoints to your character:\n");
+        Console.WriteLine($"Player Max Hp: {Hp}");
+        for (int i = 0; i < options.Count; i++)
+        {
+            if (i < 5)
+            {
+                Console.WriteLine($"{i + 1}) {options[i]} {total[i]}");
+            }
+            else
+            {
+                Console.WriteLine($"{i + 1}) {options[i]}");
+            }
         }
     }
 }
