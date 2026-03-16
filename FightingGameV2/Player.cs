@@ -1,7 +1,7 @@
 // allows me to use Regex to know if an answer has numbers in it
 using System.Text.RegularExpressions;
 
-public class Player : Character, INaming, IAttacking, IMenuOption
+public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IAttackable
 {
     // not gonna be used for now
     public int StoryPoint;
@@ -179,6 +179,11 @@ public class Player : Character, INaming, IAttacking, IMenuOption
                     Console.WriteLine("Name has numbers in it, please try again");
 
                 }
+                else
+                {
+                    break;
+                }
+                Console.ReadLine();
             }
 
             Console.WriteLine($"Your Characters Name is {Name}, is this correct? [yes/no]");
@@ -232,7 +237,7 @@ public class Player : Character, INaming, IAttacking, IMenuOption
         Console.WriteLine($"Player Max Hp: {Hp}");
         for (int i = 0; i < options.Count; i++)
         {
-            if (i < 5)
+            if (i < 6)
             {
                 Console.WriteLine($"{i + 1}) {options[i]} {total[i]}");
             }
@@ -241,5 +246,19 @@ public class Player : Character, INaming, IAttacking, IMenuOption
                 Console.WriteLine($"{i + 1}) {options[i]}");
             }
         }
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        Hp -= dmg;
+        // makes sure the damage does not make the Hp go bellow 0
+        Hp = Math.Max(Hp, 0);
+    }
+
+    public void HealDamage(int heal)
+    {
+        Hp += heal;
+        // makes sure the healing does not go above the MaxHp
+        Hp = Math.Min(Hp, MaxHp);
     }
 }

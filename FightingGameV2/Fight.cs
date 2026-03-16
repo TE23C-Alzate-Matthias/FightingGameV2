@@ -26,5 +26,37 @@ public class Fight
         }
         
     }
+    // very simple how the turn ordering will work for now, gonna be changed to have more options
+    public static void TurnOrder(Player p, Enemy e)
+    {
+        int round = 0;
+        
+        
+        while (p.Hp > 0 && e.Hp > 0)
+        {
+            round++;
+            Console.Clear();
+            Console.WriteLine(e.Vt);
+            Console.WriteLine($"======= ROUND {round} =======");
+            Console.WriteLine($"{p.Name} Hp: {p.Hp} || {e.Name} Hp: {e.Hp}");
 
+            if (p.Hp > 0)
+            {
+                p.AttackChoice(p, e);
+            }
+            if (e.Hp > 0)
+            {
+                e.AttackChoice(p, e);
+            }
+
+            Console.WriteLine("Click anything to continue");
+            Console.ReadLine();
+        }
+
+        Fight.WinCheck(p, e);
+        p.HealDamage(p.MaxHp);
+        e.HealDamage(e.MaxHp);
+        Console.WriteLine("Click anything to continue");
+        Console.ReadLine();
+    }
 }

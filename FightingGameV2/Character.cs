@@ -35,40 +35,6 @@ public abstract class Character
 
     protected static Random generator = new();
 
-    // very simple how the turn ordering will work for now, gonna be changed to have more options
-    public void TurnOrder(Player p, Enemy e)
-    {
-        int round = 0;
-        e.Hp = e.Vt * 10 + 100;
-        e.MaxHp = e.Hp;
-        
-        while (p.Hp > 0 && e.Hp > 0)
-        {
-            round++;
-            Console.Clear();
-            Console.WriteLine(e.Vt);
-            Console.WriteLine($"======= ROUND {round} =======");
-            Console.WriteLine($"{p.Name} Hp: {p.Hp} || {e.Name} Hp: {e.Hp}");
-
-            if (p.Hp > 0)
-            {
-                p.AttackChoice(p, e);
-            }
-            if (e.Hp > 0)
-            {
-                e.AttackChoice(p, e);
-            }
-
-            Console.WriteLine("Click anything to continue");
-            Console.ReadLine();
-        }
-
-        Fight.WinCheck(p, e);
-        p.Heal(MaxHp);
-        e.Heal(MaxHp);
-        Console.WriteLine("Click anything to continue");
-        Console.ReadLine();
-    }
     // makes a character take damage
     private void TakeDamage(int amount)
     {   

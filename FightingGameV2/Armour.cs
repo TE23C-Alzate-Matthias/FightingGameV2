@@ -1,8 +1,6 @@
-using System;
-
-namespace FightingGameV2;
-
 public class Armour
 {
-
+    public int protection;
+    public int dexterity;
+    
 }
