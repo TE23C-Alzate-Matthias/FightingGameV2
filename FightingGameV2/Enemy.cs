@@ -1,10 +1,5 @@
 public class Enemy : Character, IAttacking, IHealable, IAttackable
 {
-    public Enemy()
-    {
-        Hp = 100 + 10*Vt;
-        MaxHp = Hp;
-    }
     public void AttackChoice(Player p, Enemy e)
     {
         int choice;

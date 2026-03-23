@@ -31,7 +31,7 @@ public class Fight
     {
         int round = 0;
         
-        
+        // keeps playing until one of the Hp are bellow 0
         while (p.Hp > 0 && e.Hp > 0)
         {
             round++;
@@ -40,6 +40,7 @@ public class Fight
             Console.WriteLine($"======= ROUND {round} =======");
             Console.WriteLine($"{p.Name} Hp: {p.Hp} || {e.Name} Hp: {e.Hp}");
 
+            // as long their hp is above 0, they can make an action, made this way so its harder for a draw
             if (p.Hp > 0)
             {
                 p.AttackChoice(p, e);
@@ -53,10 +54,12 @@ public class Fight
             Console.ReadLine();
         }
 
-        Fight.WinCheck(p, e);
+        WinCheck(p, e);
         p.HealDamage(p.MaxHp);
         e.HealDamage(e.MaxHp);
         Console.WriteLine("Click anything to continue");
         Console.ReadLine();
     }
+
+    
 }

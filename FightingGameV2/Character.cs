@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
-using FightingGameV2;
-public abstract class Character
+public abstract class Character : IAttackable, IHealable
 {
     // ==================== CLASS ====================
 
@@ -35,20 +34,6 @@ public abstract class Character
 
     protected static Random generator = new();
 
-    // makes a character take damage
-    private void TakeDamage(int amount)
-    {   
-        Hp -= amount;
-        // makes sure the damage does not make the Hp go bellow 0
-        Hp = Math.Max(Hp, 0);
-    }
-    // makes a character heal
-    private void Heal(int amount)
-    {
-        Hp += amount;
-        // makes sure the healing does not go above the MaxHp
-        Hp = Math.Min(Hp, MaxHp);
-    }
     // light attack method both players can use
     private void LightAttack(Character target, Character attacker)
     {
@@ -78,7 +63,7 @@ public abstract class Character
         heal = generator.Next(MaxHp/10, (MaxHp/7)+1);
         Console.WriteLine($"{self.Name} healed {heal} damage");
 
-        self.Heal(heal);
+        self.HealDamage(heal);
     }
     // a check to see if an attack hits
     private static bool AttackCheck(int chance, Character target, Character attacker)
@@ -123,5 +108,19 @@ public abstract class Character
         {
             self.Rest(self);
         }
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        Hp -= dmg;
+        // makes sure the damage does not make the Hp go bellow 0
+        Hp = Math.Max(Hp, 0);
+    }
+
+    public void HealDamage(int heal)
+    {
+        Hp += heal;
+        // makes sure the healing does not go above the MaxHp
+        Hp = Math.Min(Hp, MaxHp);
     }
 }

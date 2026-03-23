@@ -1,7 +1,7 @@
 using FightingGameV2;
 
 public class Menu : IMenuOption
-{
+{   
     public static void Intermission(Player p, Enemy e)
     {   
         Menu menu = new();
@@ -25,28 +25,29 @@ public class Menu : IMenuOption
             Console.WriteLine($"Press enter to get back");
             Console.ReadLine();
         });
+        actions.Add(3, p.backpack.Display);
         // goes to the fight
-        actions.Add(3, () =>
+        actions.Add(4, () =>
         {
             Fight.TurnOrder(p, e);
         });
         // exits the program
-        actions.Add(4, () =>
+        actions.Add(5, () =>
         {
             ExitGame();
         });
         Console.Clear();
-        while (choice != 3)
+        while (choice != actions.Count - 1)
         {   
             Console.Clear();
             choice = 0;
             menu.MenuOption();
 
-            while (choice < 1 || choice > 4)
+            while (choice < 1 || choice > actions.Count)
             {   
                 option = Console.ReadLine();
                 int.TryParse(option, out choice);
-                if (choice < 1 || choice > 4)
+                if (choice < 1 || choice > actions.Count)
                 {
                     Console.WriteLine("Unknown option, please try again");
                 }
@@ -57,7 +58,7 @@ public class Menu : IMenuOption
 
     public void MenuOption()
     {
-        List<string> options = ["Check Stats", "Next Enemy", "Start Next Fight", "Quit"];
+        List<string> options = ["Check Stats", "Next Enemy","Inventory", "Start Next Fight", "Quit"];
         for (int i = 0; i < options.Count; i++)
         {
             Console.WriteLine($"{i + 1}) {options[i]}");

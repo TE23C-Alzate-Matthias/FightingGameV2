@@ -1,6 +1,4 @@
-public class Armour
+public class Armour : Item
 {
-    public int protection;
-    public int dexterity;
     
 }

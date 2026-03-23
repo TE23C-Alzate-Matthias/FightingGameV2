@@ -17,6 +17,7 @@
 using System.Text.Json;
 Console.WriteLine("Version 2.0");
 Console.WriteLine("Click Anything to Continue");
+Console.ReadLine();
 string e = File.ReadAllText("enemies.json");
 List<Enemy> enemies = JsonSerializer.Deserialize<List<Enemy>>(e);
 

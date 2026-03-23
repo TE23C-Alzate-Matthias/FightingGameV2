@@ -1,17 +1,29 @@
 // allows me to use Regex to know if an answer has numbers in it
 using System.Text.RegularExpressions;
 
-public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IAttackable
+public class Player : Character, INaming, IAttacking, IMenuOption
 {
     // not gonna be used for now
     public int StoryPoint;
-    public int stat { get; private set; }
-    public int gold { get; private set; }
+    public int Stat { get; private set; }
+    public int Gold { get; private set; }
+    public Inventory backpack;
+    private Weapon sword;
+    private Consumable potion;
     public Player()
     {
-        stat = 20;
+        Stat = 20;
         Hp = 100;
         MaxHp = Hp;
+        backpack = new();
+
+        // fix making them accesiable later
+        sword = new() { Name = "Sword"};
+        potion = new() { Name = "Healing Potion"};
+
+        backpack.Items.Add(sword);
+        backpack.Items.Add(potion);
+
     }
 
     // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
@@ -38,7 +50,7 @@ public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IA
 
             if (choice == 7)
             {
-                // shows what each stat does
+                // shows what each Stat does
                 Console.WriteLine("\nVitality: +10 hp per point");
                 Console.WriteLine("Attack: 1+ Minimun and Maximun damage when hitting an attack (+2 maximun damage on heavy attack)");
                 Console.WriteLine("Defence: -1 Damage taken when getting hit per point");
@@ -56,9 +68,9 @@ public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IA
             {
                 break;
             }
-            else if (stat == 0)
+            else if (Stat == 0)
             {
-                Console.WriteLine("No stat points left, please try again");
+                Console.WriteLine("No Stat points left, please try again");
                 Console.ReadLine();
 
             }
@@ -78,13 +90,13 @@ public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IA
     {
         Console.Clear();
         string option;
-        Console.WriteLine("Are you sure you want to reset your stats?");
+        Console.WriteLine("Are you sure you want to reset your Stats?");
         Console.WriteLine("Write 'yes' if you are sure");
         option = Console.ReadLine();
         if (option == "yes")
         {
 
-            stat += Vt + Atk + Def + Spd + Acc + Dex;
+            Stat += Vt + Atk + Def + Spd + Acc + Dex;
             Vt = 0;
             Atk = 0;
             Def = 0;
@@ -98,24 +110,24 @@ public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IA
             Console.ReadLine();
         }
     }
-    // currently just a placeholder way to add more stats and stuff before using a dictionary to make it easier
+    // currently just a placeholder way to add more Stats and stuff before using a dictionary to make it easier
     private void AddPoints(int answer)
     {
         Console.Clear();
         int amount = 0;
         string option;
         Console.WriteLine("How many points do you want to add?");
-        Console.WriteLine($"You have {stat} total points left");
-        while (amount < 1 || amount > stat)
+        Console.WriteLine($"You have {Stat} total points left");
+        while (amount < 1 || amount > Stat)
         {
             option = Console.ReadLine();
             int.TryParse(option, out amount);
-            if (amount <= 1 || amount >= stat)
+            if (amount <= 1 || amount >= Stat)
             {
                 Console.WriteLine("Not a valid number, please try again");
             }
         }
-        stat -= amount;
+        Stat -= amount;
         switch (answer)
         {
             case 1:
@@ -229,11 +241,11 @@ public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IA
 
     public void MenuOption()
     {   
-        List<string> options = ["Vt:", "Atk:", "Def:", "Spd:", "Acc:", "Dex:", "Help", "Reset stat point", "Exit"];
+        List<string> options = ["Vt:", "Atk:", "Def:", "Spd:", "Acc:", "Dex:", "Help", "Reset Stat point", "Exit"];
         List<int> total = [Vt, Atk, Def, Spd, Acc, Dex];
         Console.Clear();
-        Console.WriteLine($"Stat Points Left: {stat}");
-        Console.WriteLine("Add statpoints to your character:\n");
+        Console.WriteLine($"Stat Points Left: {Stat}");
+        Console.WriteLine("Add Statpoints to your character:\n");
         Console.WriteLine($"Player Max Hp: {Hp}");
         for (int i = 0; i < options.Count; i++)
         {
@@ -246,19 +258,5 @@ public class Player : Character, INaming, IAttacking, IMenuOption, IHealable, IA
                 Console.WriteLine($"{i + 1}) {options[i]}");
             }
         }
-    }
-
-    public void TakeDamage(int dmg)
-    {
-        Hp -= dmg;
-        // makes sure the damage does not make the Hp go bellow 0
-        Hp = Math.Max(Hp, 0);
-    }
-
-    public void HealDamage(int heal)
-    {
-        Hp += heal;
-        // makes sure the healing does not go above the MaxHp
-        Hp = Math.Min(Hp, MaxHp);
     }
 }
