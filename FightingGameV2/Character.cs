@@ -32,15 +32,17 @@ public abstract class Character : IAttackable, IHealable
     public int Dex { get; protected set; }
     public Weapon lightSword = new() {TimesAttack = 1, MinDmg = 10, MaxDmg = 21, HitChance = 60, MaxDmgMult = 1};
     public Weapon heavySword = new() {TimesAttack = 1, MinDmg = 20, MaxDmg = 41, HitChance = 30, MaxDmgMult = 2};
+    protected Consumable potion = new();
 
     protected static Random generator = new();
 
+    // has no use right now but will be addded
     private void Rest(Character self)
     {   
         int heal;
 
-        // looks at the characters MaxHp and makes you heal somewhere between a 7th and a 5th of the Hp
-        heal = generator.Next(MaxHp/10, (MaxHp/7)+1);
+        // looks at the characters MaxHp and makes you heal somewhere between a 10th and a 8th of the Hp
+        heal = generator.Next(MaxHp/10, (MaxHp/8)+1);
         Console.WriteLine($"{self.Name} healed {heal} damage");
 
         self.HealDamage(heal);
@@ -48,17 +50,20 @@ public abstract class Character : IAttackable, IHealable
     // method for both player and enemy which uses to know what they want to do
     protected void TurnChoice(int choice, Character self, Character target)
     {   
+        // makes a light attack
         if (choice == 1)
         {   
             lightSword.Attacks(self, target);
         }
+        // makes a heavy attack
         else if (choice == 2)
         {   
             heavySword.Attacks(self, target);
         }
+        // rests
         else
         {
-            self.Rest(self);
+            potion.Use(self);
         }
     }
     public void TakeDamage(int dmg)

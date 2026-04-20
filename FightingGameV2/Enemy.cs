@@ -1,5 +1,5 @@
 public class Enemy : Character, IAttacking
-{
+{   
     public void AttackChoice(Player p, Enemy e)
     {
         int choice;

@@ -32,7 +32,8 @@ while (keepPlaying == "yes")
     Console.Clear();
     p1.Stats();
     foreach(Enemy enemy in enemies)
-    {
+    {   
+        enemy.FixHp();
         Menu.Intermission(p1, enemy);
         // check for if you have died and lost
         if (p1.StoryPoint == 4)

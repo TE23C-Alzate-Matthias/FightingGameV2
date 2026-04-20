@@ -3,12 +3,11 @@ using System.Text.RegularExpressions;
 
 public class Player : Character, INaming, IAttacking, IMenuOption
 {
-    // not gonna be used for now
+    // currently only used to check if you lost a fight and makes you "lose"
     public int StoryPoint;
     public int Stat { get; private set; }
     public int Gold { get; private set; }
     public Inventory backpack;
-    private Consumable potion;
     private Weapon sword;
     public Player()
     {
@@ -26,18 +25,20 @@ public class Player : Character, INaming, IAttacking, IMenuOption
 
     }
 
-    // CURRENTLY REUSING THE CODE FROM AN OLD PROJECT, WILL CHANGE TO MAKE IT LESS SPAGETTHI CODE
-    // REMEMBER TO MAKE THIS METHOD LESS REPETETIVE AND BREAK UP INTO SMALLER METHODS
+    // the code for the stats giving can be a seperate class and not be in Player, but for now it will stay in here
     public void Stats()
     {
         int choice = 0;
         int[] acceptable = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        // as long as you dont pick 9, it keeps doing stuff
         while (choice != 9)
         {
             choice = 0;
 
+            // shows the different options you got
             MenuOption();
 
+            // if you dont give an answer of a number or a answer in the range, stays in here
             while (!acceptable.Contains(choice))
             {
                 string option = Console.ReadLine();
@@ -61,20 +62,23 @@ public class Player : Character, INaming, IAttacking, IMenuOption
                 Console.ReadLine();
             }
             else if (choice == 8)
-            {
+            {   
+                // reset all points you sat in
                 ResetPoint();
             }
             else if (choice == 9)
-            {
+            {   
+                // gets out of the while loop
                 break;
             }
+            // if the stats is 0, dosnt allow you do add more stats
             else if (Stat == 0)
             {
                 Console.WriteLine("No Stat points left, please try again");
                 Console.ReadLine();
 
             }
-            // got help with chatGPT to make this more compact
+            // got a little help of AI to make it a bit more compact
             else if (choice >= 1 && choice <= 6)
             {
                 AddPoints(choice);
@@ -82,6 +86,7 @@ public class Player : Character, INaming, IAttacking, IMenuOption
             Hp = 100 + (10 * Vt);
             Console.Clear();
         }
+        // sets maxHp to the Hp
         MaxHp = Hp;
 
     }
@@ -93,7 +98,8 @@ public class Player : Character, INaming, IAttacking, IMenuOption
         Console.WriteLine("Are you sure you want to reset your Stats?");
         Console.WriteLine("Write 'yes' if you are sure");
         option = Console.ReadLine();
-        if (option == "yes")
+        // if you say yes, resets all your stats and add them back to the int of stat
+        if (option.ToLower() == "yes")
         {
 
             Stat += Vt + Atk + Def + Spd + Acc + Dex;
@@ -110,7 +116,7 @@ public class Player : Character, INaming, IAttacking, IMenuOption
             Console.ReadLine();
         }
     }
-    // currently just a placeholder way to add more Stats and stuff before using a dictionary to make it easier
+    // a placeholder way to add more Stats and stuff before using a dictionary to make it easier, if it ever gets added
     private void AddPoints(int answer)
     {
         Console.Clear();
@@ -128,6 +134,7 @@ public class Player : Character, INaming, IAttacking, IMenuOption
             }
         }
         Stat -= amount;
+        // checks which the stat you wanted to add stats to
         switch (answer)
         {
             case 1:
@@ -208,12 +215,11 @@ public class Player : Character, INaming, IAttacking, IMenuOption
         int num = 0;
         string choice = "";
         // list of options
-        List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
+        List<string> options = ["Light Attack", "Heavy Attack", $"Use Potion ({potion.currentUses} uses left)"];
 
-        // choose what you want
+        // stays in the loop as long as num is higher than options.count or lower than 1
         while (num > options.Count || num < 1)
         {
-
             Console.WriteLine("What do you want to do?");
             // writes out list
             for (int i = 0; i < options.Count; i++)
@@ -239,6 +245,7 @@ public class Player : Character, INaming, IAttacking, IMenuOption
         TurnChoice(num, p, e);
     }
 
+    // menu option for the stats menu
     public void MenuOption()
     {   
         List<string> options = ["Vt:", "Atk:", "Def:", "Spd:", "Acc:", "Dex:", "Help", "Reset Stat point", "Exit"];

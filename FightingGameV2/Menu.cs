@@ -1,7 +1,8 @@
 using FightingGameV2;
 
 public class Menu : IMenuOption
-{   
+{    
+    // the Intermission menu when you are between fights
     public static void Intermission(Player p, Enemy e)
     {   
         Menu menu = new();
@@ -36,7 +37,11 @@ public class Menu : IMenuOption
         {
             ExitGame();
         });
+
+
+
         Console.Clear();
+        // as long the choice isnt actions.count - 1 it will stay in the looå
         while (choice != actions.Count - 1)
         {   
             Console.Clear();
