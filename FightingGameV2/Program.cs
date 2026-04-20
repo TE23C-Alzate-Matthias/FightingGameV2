@@ -8,7 +8,7 @@
 //        | | | |__| |   | |__| | |__| |   | |____ _| |_ ____) |  | |   
 //        |_|  \____/    |_____/ \____/    |______|_____|_____/   |_|                                                                      
 //                                                                      
-// 7. Add a simple inventory for the player, with some items they can put on.
+// 7. Add a simple inventory for the player, with some items.
 // 8. A bit better Logic for enemies decisions
 // 9. Optimise different methods by splitting them or better code
 //      1. Stats Method
@@ -30,7 +30,6 @@ while (keepPlaying == "yes")
 {   
     p1.ChooseName();
     Console.Clear();
-    Console.WriteLine("Inside the game logic");
     p1.Stats();
     foreach(Enemy enemy in enemies)
     {

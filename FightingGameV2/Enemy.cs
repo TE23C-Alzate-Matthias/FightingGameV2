@@ -1,4 +1,4 @@
-public class Enemy : Character, IAttacking, IHealable, IAttackable
+public class Enemy : Character, IAttacking
 {
     public void AttackChoice(Player p, Enemy e)
     {
@@ -10,21 +10,14 @@ public class Enemy : Character, IAttacking, IHealable, IAttackable
 
         TurnChoice(choice, e, p);
     }
-    public void SetMaxHp()
+    // as i currently dont know how to fix the hp of the enemy when getting from the json, this is a bandaid fix
+    public void FixHp()
     {
-        MaxHp = Hp;
+        SetMaxHp();
+        HealDamage(MaxHp);
     }
-    public void HealDamage(int heal)
+    private void SetMaxHp()
     {
-        Hp += heal;
-        // makes sure the healing does not go above the MaxHp
-        Hp = Math.Min(Hp, MaxHp);
-    }
-
-    public void TakeDamage(int dmg)
-    {
-        Hp -= dmg;
-        // makes sure the damage does not make the Hp go bellow 0
-        Hp = Math.Max(Hp, 0);
+        MaxHp = Hp + 10 * Vt;
     }
 }

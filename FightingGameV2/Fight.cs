@@ -28,7 +28,8 @@ public class Fight
     }
     // very simple how the turn ordering will work for now, gonna be changed to have more options
     public static void TurnOrder(Player p, Enemy e)
-    {
+    {   
+        e.FixHp();
         int round = 0;
         
         // keeps playing until one of the Hp are bellow 0
@@ -36,7 +37,6 @@ public class Fight
         {
             round++;
             Console.Clear();
-            Console.WriteLine(e.Vt);
             Console.WriteLine($"======= ROUND {round} =======");
             Console.WriteLine($"{p.Name} Hp: {p.Hp} || {e.Name} Hp: {e.Hp}");
 

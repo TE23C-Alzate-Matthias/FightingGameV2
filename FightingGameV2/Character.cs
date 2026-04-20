@@ -30,31 +30,11 @@ public abstract class Character : IAttackable, IHealable
     public int Acc { get; protected set; }
     [JsonInclude]
     public int Dex { get; protected set; }
-
+    public Weapon lightSword = new() {TimesAttack = 1, MinDmg = 10, MaxDmg = 21, HitChance = 60, MaxDmgMult = 1};
+    public Weapon heavySword = new() {TimesAttack = 1, MinDmg = 20, MaxDmg = 41, HitChance = 30, MaxDmgMult = 2};
 
     protected static Random generator = new();
 
-    // light attack method both players can use
-    private void LightAttack(Character target, Character attacker)
-    {
-        int dmg;
-
-        dmg = generator.Next(10 + attacker.Atk, 21 + attacker.Atk) - target.Def;
-        Console.WriteLine($"{target.Name} took {dmg} damage");
-        target.TakeDamage(dmg);
-
-    }
-    // heavy attack method both players can use
-    private void HeavyAttack(Character target, Character attacker)
-    {
-        int dmg;
-
-        dmg = generator.Next(20 + attacker.Atk, 41 + (attacker.Atk * 2)) - target.Def;
-        Console.WriteLine($"{target.Name} took {dmg} damage");
-
-        target.TakeDamage(dmg);
-
-    }
     private void Rest(Character self)
     {   
         int heal;
@@ -65,58 +45,28 @@ public abstract class Character : IAttackable, IHealable
 
         self.HealDamage(heal);
     }
-    // a check to see if an attack hits
-    private static bool AttackCheck(int chance, Character target, Character attacker)
-    {
-        bool hits = false;
-        int accuracy;
-        accuracy = generator.Next(1, 101);
-
-        if(accuracy < chance - attacker.Acc + target.Dex)
-        {   
-            Console.WriteLine($"{attacker.Name} missed their attack\n");
-            hits = false;
-        }
-        else
-        {
-            hits = true;
-        }
-        return hits;
-    }
-
     // method for both player and enemy which uses to know what they want to do
     protected void TurnChoice(int choice, Character self, Character target)
     {   
-        bool hits;
         if (choice == 1)
         {   
-            hits = AttackCheck(80, target, self);
-            if (hits == true)
-            {
-                self.LightAttack(target, self);
-            }
+            lightSword.Attacks(self, target);
         }
         else if (choice == 2)
         {   
-            hits = AttackCheck(30, target, self);
-            if (hits == true)
-            {
-                self.HeavyAttack(target, self);  
-            }
+            heavySword.Attacks(self, target);
         }
         else
         {
             self.Rest(self);
         }
     }
-
     public void TakeDamage(int dmg)
     {
         Hp -= dmg;
         // makes sure the damage does not make the Hp go bellow 0
         Hp = Math.Max(Hp, 0);
     }
-
     public void HealDamage(int heal)
     {
         Hp += heal;

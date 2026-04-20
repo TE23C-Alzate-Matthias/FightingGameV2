@@ -8,8 +8,8 @@ public class Player : Character, INaming, IAttacking, IMenuOption
     public int Stat { get; private set; }
     public int Gold { get; private set; }
     public Inventory backpack;
-    private Weapon sword;
     private Consumable potion;
+    private Weapon sword;
     public Player()
     {
         Stat = 20;
@@ -207,12 +207,12 @@ public class Player : Character, INaming, IAttacking, IMenuOption
     {
         int num = 0;
         string choice = "";
+        // list of options
+        List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
 
         // choose what you want
-        while (choice != "1" && choice != "2" && choice != "3")
+        while (num > options.Count || num < 1)
         {
-            // list of options
-            List<string> options = ["Light Attack", "Heavy Attack", "Rest"];
 
             Console.WriteLine("What do you want to do?");
             // writes out list
