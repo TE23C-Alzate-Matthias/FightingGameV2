@@ -24,6 +24,10 @@ public class Player : Character, INaming, IAttacking, IMenuOption
         backpack.Items.Add(potion);
 
     }
+    public void PotionUsesGive()
+    {
+        potion.ResetUses();
+    }
 
     // the code for the stats giving can be a seperate class and not be in Player, but for now it will stay in here
     public void Stats()

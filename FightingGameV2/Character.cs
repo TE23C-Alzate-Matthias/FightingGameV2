@@ -36,7 +36,7 @@ public abstract class Character : IAttackable, IHealable
 
     protected static Random generator = new();
 
-    // has no use right now but will be addded
+    // has no use right now but will be addded at some point
     private void Rest(Character self)
     {   
         int heal;

@@ -18,7 +18,9 @@ using System.Text.Json;
 Console.WriteLine("Version 2.0");
 Console.WriteLine("Click Anything to Continue");
 Console.ReadLine();
+// reads from the json file enemies
 string e = File.ReadAllText("enemies.json");
+// makes a list called enemies (which has the class enemy inside it), deserlizes to make it usable
 List<Enemy> enemies = JsonSerializer.Deserialize<List<Enemy>>(e);
 
 Player p1 = new();
@@ -31,6 +33,9 @@ while (keepPlaying == "yes")
     p1.ChooseName();
     Console.Clear();
     p1.Stats();
+    // for every enemy in enemies it runs it the loop that much
+    // meaning that when you add more enemies in the json file, the fighting time will be longer
+    // as there is more enemies to fight
     foreach(Enemy enemy in enemies)
     {   
         enemy.FixHp();

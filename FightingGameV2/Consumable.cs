@@ -1,6 +1,6 @@
 public class Consumable : Item
 {   
-    int maxUses;
+    public int maxUses {get; private set;}
     public int currentUses {get; private set;}
     public Consumable()
     {

@@ -51,6 +51,7 @@ public class Fight
         WinCheck(p, e);
         p.HealDamage(p.MaxHp);
         e.HealDamage(e.MaxHp);
+        p.PotionUsesGive();
         Console.WriteLine("Click anything to continue");
         Console.ReadLine();
     }
